@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UX 디자이너의 새로운 시대 — 바이브 디자인</title>
 
-    <!-- Fonts: Bricolage Grotesque (display) + Work Sans (body) -->
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Fonts: Lora (display/serif) + Noto Serif Korean (한글 타이틀) + Roboto (body/sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 
     <style>
         /* ===========================================
@@ -14,16 +14,16 @@
            Vintage Editorial with Gothic fonts
            =========================================== */
         :root {
-            --bg: #f5f3ee;
-            --text: #1a1a1a;
-            --muted: #666;
-            --accent: #c85a3a;
-            --accent-light: #e8d4c0;
-            --accent-dark: #a04428;
-            --card-bg: #fffdf9;
+            --bg: #121212;
+            --text: #FFFFFF;
+            --muted: #E0E0E0;
+            --accent: #F2FF66;
+            --accent-light: #F2FF66;
+            --accent-dark: #d4e04a;
+            --card-bg: #2A2A2A;
 
-            --font-display: 'Bricolage Grotesque', sans-serif;
-            --font-body: 'Work Sans', sans-serif;
+            --font-display: 'Nanum Myeongjo', Georgia, serif;
+            --font-body: 'Roboto', Arial, sans-serif;
 
             --title-size: clamp(2rem, 6vw, 5rem);
             --h2-size: clamp(1.8rem, 4.5vw, 3.6rem);
@@ -149,7 +149,7 @@
 
         h1, h2, h3 {
             font-family: var(--font-display);
-            font-weight: 800;
+            font-weight: 300;
             line-height: 1.1;
         }
 
@@ -165,7 +165,7 @@
         .geo-circle {
             border: 2px solid var(--text);
             border-radius: 50%;
-            opacity: 0.08;
+            opacity: 0.12;
         }
         .geo-line {
             height: 2px;
@@ -177,7 +177,7 @@
             height: clamp(6px, 1vw, 10px);
             background: var(--accent);
             border-radius: 50%;
-            opacity: 0.4;
+            opacity: 0.3;
         }
         .geo-cross {
             opacity: 0.1;
@@ -246,7 +246,7 @@
         .title-slide .eyebrow {
             font-family: var(--font-body);
             font-size: var(--small-size);
-            font-weight: 500;
+            font-weight: 300;
             text-transform: uppercase;
             letter-spacing: 0.3em;
             color: var(--muted);
@@ -272,15 +272,16 @@
             border: 2px solid var(--text);
             font-family: var(--font-display);
             font-size: var(--small-size);
-            font-weight: 700;
+            font-weight: 300;
             text-transform: uppercase;
             letter-spacing: 0.15em;
             transition: all 0.3s ease;
             cursor: pointer;
         }
         .title-slide .cta-box:hover {
-            background: var(--text);
+            background: var(--accent);
             color: var(--bg);
+            border-color: var(--accent);
         }
 
         /* Title geometric elements */
@@ -338,11 +339,11 @@
             position: absolute;
             left: 0;
             color: var(--accent);
-            font-weight: 600;
+            font-weight: 300;
         }
         .pain-list li strong {
             color: var(--text);
-            font-weight: 600;
+            font-weight: 300;
         }
 
         /* ===========================================
@@ -371,7 +372,7 @@
             height: min(70vw, 500px);
             border: 2px solid var(--text);
             border-radius: 50%;
-            opacity: 0.08;
+            opacity: 0.12;
         }
         /* Dashed triangle lines connecting the 3 nodes */
         .tool-triangle-lines {
@@ -388,7 +389,7 @@
             stroke: var(--accent);
             stroke-width: 1.5;
             stroke-dasharray: 8 5;
-            opacity: 0.25;
+            opacity: 0.35;
         }
         /* Tool nodes — circular */
         .tool-node {
@@ -396,7 +397,7 @@
             width: clamp(130px, 26vw, 200px);
             height: clamp(130px, 26vw, 200px);
             background: var(--card-bg);
-            border: 2px solid rgba(0,0,0,0.08);
+            border: 2px solid rgba(255,255,255,0.15);
             border-radius: 50%;
             display: flex;
             flex-direction: column;
@@ -407,7 +408,7 @@
             transition: box-shadow 0.3s ease, transform 0.3s ease;
         }
         .tool-node:hover {
-            box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 28px rgba(242,255,102,0.1);
             transform: scale(1.05);
         }
         /* Triangle vertex positions: top-center, bottom-left, bottom-right
@@ -445,8 +446,8 @@
         }
         /* Accent ring per node */
         .tool-node:nth-child(3) { border-color: var(--accent); }
-        .tool-node:nth-child(4) { border-color: var(--text); }
-        .tool-node:nth-child(5) { border-color: var(--accent-light); }
+        .tool-node:nth-child(4) { border-color: rgba(255,255,255,0.3); }
+        .tool-node:nth-child(5) { border-color: rgba(242,255,102,0.4); }
 
         @media (max-width: 600px) {
             .tool-triangle { width: 92vw; height: min(50vh, 360px); }
@@ -465,7 +466,7 @@
         .vibe-slide .big-quote {
             font-family: var(--font-display);
             font-size: clamp(1.8rem, 5vw, 3.8rem);
-            font-weight: 800;
+            font-weight: 300;
             line-height: 1.2;
             max-width: min(90vw, 900px);
         }
@@ -506,7 +507,7 @@
         }
         .process-step {
             background: var(--card-bg);
-            border: 1px solid rgba(0,0,0,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
             padding: clamp(0.7rem, 1.5vw, 1.3rem);
             position: relative;
             flex-shrink: 0;
@@ -519,7 +520,7 @@
         .process-step .step-num {
             font-family: var(--font-display);
             font-size: var(--small-size);
-            font-weight: 800;
+            font-weight: 300;
             color: var(--accent);
             margin-bottom: clamp(0.15rem, 0.4vh, 0.3rem);
         }
@@ -562,13 +563,13 @@
             font-family: var(--font-body);
             font-size: clamp(0.65rem, 0.9vw, 0.8rem);
             color: var(--accent);
-            font-weight: 500;
+            font-weight: 300;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
         .process-step.optional {
             border-style: dashed;
-            border-color: var(--accent-light);
+            border-color: rgba(242,255,102,0.4);
             opacity: 0.85;
         }
 
@@ -600,7 +601,7 @@
             font-size: var(--h3-size);
             margin-bottom: clamp(0.4rem, 1vh, 0.8rem);
             padding-bottom: clamp(0.3rem, 0.6vh, 0.5rem);
-            border-bottom: 2px solid var(--accent-light);
+            border-bottom: 2px solid rgba(255,255,255,0.15);
         }
         .change-col.after h3 {
             border-bottom-color: var(--accent);
@@ -621,11 +622,11 @@
         .change-col li::before {
             position: absolute;
             left: 0;
-            font-weight: 600;
+            font-weight: 300;
         }
         .change-col.before li::before {
             content: '×';
-            color: var(--muted);
+            color: rgba(255,255,255,0.4);
         }
         .change-col.after li::before {
             content: '→';
@@ -633,7 +634,7 @@
         }
         .change-divider {
             width: 1px;
-            background: rgba(0,0,0,0.1);
+            background: rgba(255,255,255,0.1);
             align-self: stretch;
             margin: 0 clamp(0.3rem, 0.8vw, 0.8rem);
         }
@@ -670,6 +671,7 @@
             padding: clamp(1.2rem, 2.5vw, 2.2rem);
             border-left: 3px solid var(--accent);
             background: var(--card-bg);
+            border-radius: 0.15rem;
         }
         .future-card h3 {
             font-size: clamp(1rem, 1.7vw, 1.35rem);
@@ -734,7 +736,7 @@
             width: clamp(6px, 0.8vw, 8px);
             height: clamp(6px, 0.8vw, 8px);
             border-radius: 50%;
-            border: 1.5px solid var(--text);
+            border: 1.5px solid rgba(255,255,255,0.4);
             background: transparent;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -755,8 +757,8 @@
             right: clamp(1.5rem, 4vw, 3rem);
             font-family: var(--font-display);
             font-size: var(--small-size);
-            font-weight: 700;
-            color: rgba(0,0,0,0.15);
+            font-weight: 300;
+            color: rgba(255,255,255,0.2);
             letter-spacing: 0.05em;
         }
 
@@ -782,7 +784,7 @@
             padding: clamp(0.4rem, 0.8vh, 0.6rem) clamp(0.8rem, 1.5vw, 1.2rem);
             font-family: var(--font-body);
             font-size: var(--small-size);
-            font-weight: 500;
+            font-weight: 300;
             cursor: pointer;
             opacity: 0;
             pointer-events: none;
@@ -821,6 +823,40 @@
         .edit-banner.show {
             display: block;
         }
+
+        /* ===========================================
+           LANGUAGE TOGGLE
+           =========================================== */
+        .lang-toggle-group {
+            position: fixed;
+            top: clamp(0.8rem, 2vh, 1.2rem);
+            left: clamp(0.8rem, 2vw, 1.2rem);
+            display: flex;
+            gap: 0;
+            z-index: 10002;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .lang-btn {
+            background: var(--card-bg);
+            color: var(--muted);
+            border: none;
+            padding: clamp(0.25rem, 0.4vh, 0.35rem) clamp(0.5rem, 1vw, 0.8rem);
+            font-family: var(--font-body);
+            font-size: clamp(0.6rem, 0.8vw, 0.75rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .lang-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        .lang-btn:not(.active):hover {
+            background: rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
@@ -836,6 +872,12 @@
     <button class="edit-toggle" id="editToggle">Edit Mode</button>
     <div class="edit-banner" id="editBanner">Editing — Ctrl+S to save &bull; Press E to exit</div>
 
+    <!-- Language toggle -->
+    <div class="lang-toggle-group" id="langToggleGroup">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ko">KO</button>
+    </div>
+
     <!-- ===========================================
          SLIDE 1: TITLE
          =========================================== -->
@@ -846,8 +888,8 @@
         <div class="geo geo-cross" style="top:20%;left:12%"></div>
         <div class="slide-content">
             <p class="eyebrow reveal">UX Designer &times; AI</p>
-            <h1 class="reveal">UX디자이너의<br><span class="accent">새로운 시대</span></h1>
-            <p class="tagline reveal">Claude Code, GitHub, Figma로 열어가는 바이브 디자인</p>
+            <h1 class="reveal"><span data-en="A New Era for<br>UX Designers" data-ko="UX디자이너의<br><span class='accent'>새로운 시대</span>">A New Era for<br>UX Designers</span></h1>
+            <p class="tagline reveal" data-en="Vibe Design powered by Claude Code, GitHub &amp; Figma" data-ko="Claude Code, GitHub, Figma로 열어가는 바이브 디자인">Vibe Design powered by Claude Code, GitHub &amp; Figma</p>
             <div class="cta-box reveal" id="startBtn" role="button" tabindex="0">Start &rarr;</div>
         </div>
         <span class="slide-number">01 / 08</span>
@@ -856,15 +898,15 @@
     <!-- ===========================================
          SLIDE 2: CURRENT WORKFLOW PAIN POINTS
          =========================================== -->
-    <section class="slide pain-slide" data-title="현재 워크플로우">
+    <section class="slide pain-slide" data-title="Workflow">
         <div class="geo geo-circle" style="width:clamp(100px,15vw,200px);height:clamp(100px,15vw,200px);bottom:10%;right:5%;top:auto"></div>
         <div class="slide-content">
-            <h2 class="reveal">기존 워크플로우의 한계</h2>
+            <h2 class="reveal" data-en="Limitations of the Current Workflow" data-ko="기존 워크플로우의 한계">Limitations of the Current Workflow</h2>
             <ul class="pain-list">
-                <li class="reveal"><strong>디자인 → 개발 핸드오프의 간극</strong><br>시안과 결과물 사이의 끊임없는 차이</li>
-                <li class="reveal"><strong>반복되는 커뮤니케이션 비용</strong><br>"여기 패딩 4px 더 주세요" — 끝없는 수정 요청</li>
-                <li class="reveal"><strong>개발 과정에서 소외되는 디자이너</strong><br>코드를 몰라서 구현 단계에 참여하기 어려움</li>
-                <li class="reveal"><strong>느린 피드백 루프</strong><br>디자인 수정 → 개발 반영까지 며칠이 걸리는 현실</li>
+                <li class="reveal" data-en="<strong>Design → Dev handoff gap</strong><br>Constant discrepancies between mockups and final output" data-ko="<strong>디자인 → 개발 핸드오프의 간극</strong><br>시안과 결과물 사이의 끊임없는 차이"><strong>Design → Dev handoff gap</strong><br>Constant discrepancies between mockups and final output</li>
+                <li class="reveal" data-en="<strong>Repetitive communication costs</strong><br>&quot;Add 4px padding here please&quot; — endless revision requests" data-ko="<strong>반복되는 커뮤니케이션 비용</strong><br>&quot;여기 패딩 4px 더 주세요&quot; — 끝없는 수정 요청"><strong>Repetitive communication costs</strong><br>&quot;Add 4px padding here please&quot; — endless revision requests</li>
+                <li class="reveal" data-en="<strong>Designers excluded from development</strong><br>Can't participate in implementation without coding skills" data-ko="<strong>개발 과정에서 소외되는 디자이너</strong><br>코드를 몰라서 구현 단계에 참여하기 어려움"><strong>Designers excluded from development</strong><br>Can't participate in implementation without coding skills</li>
+                <li class="reveal" data-en="<strong>Slow feedback loops</strong><br>Days between design revision and development implementation" data-ko="<strong>느린 피드백 루프</strong><br>디자인 수정 → 개발 반영까지 며칠이 걸리는 현실"><strong>Slow feedback loops</strong><br>Days between design revision and development implementation</li>
             </ul>
         </div>
         <span class="slide-number">02 / 08</span>
@@ -873,11 +915,11 @@
     <!-- ===========================================
          SLIDE 3: NEW TOOLS
          =========================================== -->
-    <section class="slide tools-slide" data-title="새로운 도구">
+    <section class="slide tools-slide" data-title="Tools">
         <div class="geo geo-dot" style="top:15%;right:12%"></div>
         <div class="geo geo-line" style="width:clamp(40px,8vw,100px);top:80%;right:8%;transform:rotate(20deg)"></div>
         <div class="slide-content">
-            <h2 class="reveal">새로운 도구, 새로운 가능성</h2>
+            <h2 class="reveal" data-en="New Tools, New Possibilities" data-ko="새로운 도구, 새로운 가능성">New Tools, New Possibilities</h2>
             <div class="tool-triangle reveal">
                 <div class="tool-triangle-circle"></div>
                 <div class="tool-triangle-lines">
@@ -888,17 +930,17 @@
                 <div class="tool-node">
                     <svg class="tool-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><polyline points="7,10 10,13 7,16"/><line x1="13" y1="16" x2="17" y2="16"/></svg>
                     <h3>Claude Code</h3>
-                    <p>자연어로 코드를 생성하고 수정</p>
+                    <p data-en="Generate &amp; edit code with natural language" data-ko="자연어로 코드를 생성하고 수정">Generate &amp; edit code with natural language</p>
                 </div>
                 <div class="tool-node">
                     <svg class="tool-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .31.22.69.83.57A12 12 0 0 0 12 .3z"/></svg>
                     <h3>GitHub</h3>
-                    <p>PR로 디자인 변경을 직접 소통</p>
+                    <p data-en="Communicate design changes directly via PR" data-ko="PR로 디자인 변경을 직접 소통">Communicate design changes directly via PR</p>
                 </div>
                 <div class="tool-node">
                     <svg class="tool-svg" viewBox="0 0 12 18" fill="currentColor"><path d="M0 3a3 3 0 0 1 3-3h3v6H3a3 3 0 0 1-3-3z"/><path d="M6 0h3a3 3 0 0 1 0 6H6V0z"/><path d="M0 9a3 3 0 0 1 3-3h3v6H3a3 3 0 0 1-3-3z"/><circle cx="9" cy="9" r="3"/><path d="M0 15a3 3 0 0 1 3-3h3v3a3 3 0 0 1-6 0z"/></svg>
                     <h3>Figma</h3>
-                    <p>MCP 연동으로 코드와 직접 연결</p>
+                    <p data-en="Direct code connection via MCP integration" data-ko="MCP 연동으로 코드와 직접 연결">Direct code connection via MCP integration</p>
                 </div>
             </div>
         </div>
@@ -908,17 +950,13 @@
     <!-- ===========================================
          SLIDE 4: VIBE DESIGN CONCEPT
          =========================================== -->
-    <section class="slide vibe-slide" data-title="바이브 UX디자인">
-        <div class="geo geo-circle" style="width:clamp(200px,30vw,400px);height:clamp(200px,30vw,400px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.04;animation:slowSpin 50s linear infinite"></div>
+    <section class="slide vibe-slide" data-title="Vibe UX Design">
+        <div class="geo geo-circle" style="width:clamp(200px,30vw,400px);height:clamp(200px,30vw,400px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.1;animation:slowSpin 50s linear infinite"></div>
         <div class="slide-content">
             <p class="eyebrow reveal" style="font-size:var(--small-size);text-transform:uppercase;letter-spacing:0.3em;color:var(--muted)">New Approach</p>
-            <div class="big-quote reveal">
-                &ldquo;느낌을 코드로,<br><span class="accent">감각을 프로덕트로</span>&rdquo;
-            </div>
+            <div class="big-quote reveal" data-en="&ldquo;From feeling to code,<br><span class='accent'>from intuition to product</span>&rdquo;" data-ko="&ldquo;느낌을 코드로,<br><span class='accent'>감각을 프로덕트로</span>&rdquo;">&ldquo;From feeling to code,<br><span class="accent">from intuition to product</span>&rdquo;</div>
             <div class="vibe-separator reveal"></div>
-            <p class="description reveal">
-                바이브 UX디자인은 UX디자이너의 감각과 의도를 AI를 통해 바로 코드로 구현하는 방식입니다. 완벽한 시안 없이도, 방향성과 느낌만으로 빠르게 프로토타입하고 반복할 수 있습니다.
-            </p>
+            <p class="description reveal" data-en="Vibe UX Design turns a UX designer's intuition and intent into code through AI. Without perfect mockups, you can rapidly prototype and iterate with just direction and feeling." data-ko="바이브 UX디자인은 UX디자이너의 감각과 의도를 AI를 통해 바로 코드로 구현하는 방식입니다. 완벽한 시안 없이도, 방향성과 느낌만으로 빠르게 프로토타입하고 반복할 수 있습니다.">Vibe UX Design turns a UX designer's intuition and intent into code through AI. Without perfect mockups, you can rapidly prototype and iterate with just direction and feeling.</p>
         </div>
         <span class="slide-number">04 / 08</span>
     </section>
@@ -926,46 +964,46 @@
     <!-- ===========================================
          SLIDE 5: CHANGED PROCESS
          =========================================== -->
-    <section class="slide process-slide" data-title="새 프로세스">
+    <section class="slide process-slide" data-title="Process">
         <div class="slide-content">
-            <h2 class="reveal">변화된 워크플로우</h2>
+            <h2 class="reveal" data-en="The New Workflow" data-ko="변화된 워크플로우">The New Workflow</h2>
             <div class="process-main reveal">
                 <div class="process-step highlight">
                     <span class="step-num">01</span>
-                    <h3>Claude Code로 디자인 편집</h3>
-                    <p>현재 디자인 기반으로 자연어로 수정 지시</p>
+                    <h3 data-en="Edit Design with Claude Code" data-ko="Claude Code로 디자인 편집">Edit Design with Claude Code</h3>
+                    <p data-en="Give natural language instructions based on the current design" data-ko="현재 디자인 기반으로 자연어로 수정 지시">Give natural language instructions based on the current design</p>
                 </div>
                 <span class="process-arrow">&rarr;</span>
                 <div class="process-branch">
                     <div class="process-step">
                         <span class="step-num">02</span>
-                        <h3>실시간 확인 & 수정</h3>
-                        <p>결과를 바로 보며 대화식으로 반복 수정</p>
+                        <h3 data-en="Review &amp; Iterate in Real-time" data-ko="실시간 확인 &amp; 수정">Review &amp; Iterate in Real-time</h3>
+                        <p data-en="See results instantly and iterate through conversation" data-ko="결과를 바로 보며 대화식으로 반복 수정">See results instantly and iterate through conversation</p>
                     </div>
                     <div class="branch-optional">
                         <span class="branch-arrow">&darr;</span>
-                        <span class="branch-label">정밀 수정 필요 시</span>
+                        <span class="branch-label" data-en="If precision needed" data-ko="정밀 수정 필요 시">If precision needed</span>
                         <span class="branch-arrow">&darr;</span>
                         <div class="process-step optional">
                             <span class="step-num" style="color:var(--accent-light)">&#9670;</span>
-                            <h3>Figma에서 디자인</h3>
-                            <p>정밀한 디자인 수정이 필요한 경우 Figma로 이동</p>
+                            <h3 data-en="Design in Figma" data-ko="Figma에서 디자인">Design in Figma</h3>
+                            <p data-en="Switch to Figma when pixel-perfect edits are needed" data-ko="정밀한 디자인 수정이 필요한 경우 Figma로 이동">Switch to Figma when pixel-perfect edits are needed</p>
                         </div>
                         <span class="branch-arrow">&uarr;</span>
-                        <span class="branch-label">Claude Code로 복귀</span>
+                        <span class="branch-label" data-en="Return to Claude Code" data-ko="Claude Code로 복귀">Return to Claude Code</span>
                     </div>
                 </div>
                 <span class="process-arrow">&rarr;</span>
                 <div class="process-step">
                     <span class="step-num">03</span>
-                    <h3>최종 확인</h3>
-                    <p>Claude Code에서 최종 결과물 점검</p>
+                    <h3 data-en="Final Review" data-ko="최종 확인">Final Review</h3>
+                    <p data-en="Verify the final output in Claude Code" data-ko="Claude Code에서 최종 결과물 점검">Verify the final output in Claude Code</p>
                 </div>
                 <span class="process-arrow">&rarr;</span>
                 <div class="process-step highlight">
                     <span class="step-num">04</span>
-                    <h3>GitHub PR로 반영</h3>
-                    <p>디자이너가 직접 PR을 올려 개발팀과 협업</p>
+                    <h3 data-en="Ship via GitHub PR" data-ko="GitHub PR로 반영">Ship via GitHub PR</h3>
+                    <p data-en="Designers submit PRs directly to collaborate with dev teams" data-ko="디자이너가 직접 PR을 올려 개발팀과 협업">Designers submit PRs directly to collaborate with dev teams</p>
                 </div>
             </div>
         </div>
@@ -975,30 +1013,30 @@
     <!-- ===========================================
          SLIDE 6: ROLE CHANGES (BEFORE / AFTER)
          =========================================== -->
-    <section class="slide change-slide" data-title="역할 변화">
+    <section class="slide change-slide" data-title="Role Changes">
         <div class="geo geo-cross" style="bottom:15%;right:10%"></div>
         <div class="slide-content">
-            <h2 class="reveal">UX 디자이너 역할의 변화</h2>
+            <h2 class="reveal" data-en="How the UX Designer Role is Changing" data-ko="UX 디자이너 역할의 변화">How the UX Designer Role is Changing</h2>
             <div class="change-grid reveal">
                 <div class="change-col before">
                     <h3>Before</h3>
                     <ul>
-                        <li>시안 전달 후 대기</li>
-                        <li>개발자에게 수정 요청</li>
-                        <li>코드는 블랙박스</li>
-                        <li>핸드오프 문서 작성</li>
-                        <li>디자인 QA로 소모</li>
+                        <li data-en="Hand off mockups and wait" data-ko="시안 전달 후 대기">Hand off mockups and wait</li>
+                        <li data-en="Request revisions from developers" data-ko="개발자에게 수정 요청">Request revisions from developers</li>
+                        <li data-en="Code is a black box" data-ko="코드는 블랙박스">Code is a black box</li>
+                        <li data-en="Write handoff documentation" data-ko="핸드오프 문서 작성">Write handoff documentation</li>
+                        <li data-en="Drained by design QA" data-ko="디자인 QA로 소모">Drained by design QA</li>
                     </ul>
                 </div>
                 <div class="change-divider"></div>
                 <div class="change-col after">
                     <h3>After</h3>
                     <ul>
-                        <li>직접 구현하고 확인</li>
-                        <li>AI와 대화하며 수정</li>
-                        <li>코드를 이해하고 참여</li>
-                        <li>PR로 직접 기여</li>
-                        <li>창의적 문제 해결에 집중</li>
+                        <li data-en="Build and verify directly" data-ko="직접 구현하고 확인">Build and verify directly</li>
+                        <li data-en="Iterate through AI conversation" data-ko="AI와 대화하며 수정">Iterate through AI conversation</li>
+                        <li data-en="Understand and engage with code" data-ko="코드를 이해하고 참여">Understand and engage with code</li>
+                        <li data-en="Contribute directly via PRs" data-ko="PR로 직접 기여">Contribute directly via PRs</li>
+                        <li data-en="Focus on creative problem-solving" data-ko="창의적 문제 해결에 집중">Focus on creative problem-solving</li>
                     </ul>
                 </div>
             </div>
@@ -1009,23 +1047,23 @@
     <!-- ===========================================
          SLIDE 7: FUTURE OUTLOOK
          =========================================== -->
-    <section class="slide future-slide" data-title="미래 전망">
+    <section class="slide future-slide" data-title="Future">
         <div class="geo geo-line" style="width:clamp(50px,10vw,120px);top:15%;left:5%;transform:rotate(30deg)"></div>
         <div class="geo geo-dot" style="bottom:20%;right:15%"></div>
         <div class="slide-content">
-            <h2 class="reveal">앞으로의 변화</h2>
+            <h2 class="reveal" data-en="What Comes Next" data-ko="앞으로의 변화">What Comes Next</h2>
             <div class="future-cards">
                 <div class="future-card reveal">
-                    <h3>디자이너 = 메이커</h3>
-                    <p>아이디어부터 구현까지 한 사람이 완결할 수 있는 시대. 더 빠르게, 더 정확하게 비전을 실현합니다.</p>
+                    <h3 data-en="Designer = Maker" data-ko="디자이너 = 메이커">Designer = Maker</h3>
+                    <p data-en="An era where one person can take an idea from concept to implementation. Realize your vision faster and more precisely." data-ko="아이디어부터 구현까지 한 사람이 완결할 수 있는 시대. 더 빠르게, 더 정확하게 비전을 실현합니다.">An era where one person can take an idea from concept to implementation. Realize your vision faster and more precisely.</p>
                 </div>
                 <div class="future-card reveal">
-                    <h3>협업의 새로운 언어</h3>
-                    <p>디자인과 개발의 경계가 허물어지며, 팀 전체가 같은 언어로 프로덕트를 만들어갑니다.</p>
+                    <h3 data-en="A New Language for Collaboration" data-ko="협업의 새로운 언어">A New Language for Collaboration</h3>
+                    <p data-en="As the boundary between design and development dissolves, the entire team builds products in the same language." data-ko="디자인과 개발의 경계가 허물어지며, 팀 전체가 같은 언어로 프로덕트를 만들어갑니다.">As the boundary between design and development dissolves, the entire team builds products in the same language.</p>
                 </div>
                 <div class="future-card reveal">
-                    <h3>창의성의 확장</h3>
-                    <p>반복 작업에서 해방되어 사용자 경험의 본질 — 공감과 혁신에 더 많은 시간을 투자할 수 있습니다.</p>
+                    <h3 data-en="Expanding Creativity" data-ko="창의성의 확장">Expanding Creativity</h3>
+                    <p data-en="Freed from repetitive tasks, invest more time in the essence of user experience — empathy and innovation." data-ko="반복 작업에서 해방되어 사용자 경험의 본질 — 공감과 혁신에 더 많은 시간을 투자할 수 있습니다.">Freed from repetitive tasks, invest more time in the essence of user experience — empathy and innovation.</p>
                 </div>
             </div>
         </div>
@@ -1040,8 +1078,8 @@
         <div class="geo geo-line" style="width:clamp(50px,8vw,100px);top:20%;right:10%;transform:rotate(-10deg)"></div>
         <div class="slide-content">
             <p class="eyebrow reveal" style="font-size:var(--small-size);text-transform:uppercase;letter-spacing:0.3em;color:var(--muted)">The Future is Now</p>
-            <h2 class="reveal">도구가 바뀌면 <span class="accent">역할이 바뀝니다</span></h2>
-            <p class="closing-tagline reveal">지금, UX 디자이너가 프로덕트의 중심에 서는 시대가 열렸습니다.</p>
+            <h2 class="reveal" data-en="When tools change, <span class='accent'>roles change</span>" data-ko="도구가 바뀌면 <span class='accent'>역할이 바뀝니다</span>">When tools change, <span class="accent">roles change</span></h2>
+            <p class="closing-tagline reveal" data-en="The era where UX designers stand at the center of the product has arrived." data-ko="지금, UX 디자이너가 프로덕트의 중심에 서는 시대가 열렸습니다.">The era where UX designers stand at the center of the product has arrived.</p>
         </div>
         <span class="slide-number">08 / 08</span>
     </section>
@@ -1276,6 +1314,30 @@
                 editor.save();
             }
         });
+
+        /* ===========================================
+           LANGUAGE SWITCHER
+           =========================================== */
+        const langBtns = document.querySelectorAll('.lang-btn');
+        let currentLang = 'en';
+
+        function setLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('[data-en][data-ko]').forEach(el => {
+                el.innerHTML = el.getAttribute('data-' + lang);
+            });
+            langBtns.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            document.documentElement.lang = lang === 'en' ? 'en' : 'ko';
+        }
+
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => setLang(btn.dataset.lang));
+        });
+
+        /* Default to English */
+        setLang('en');
     </script>
 </body>
 </html>
