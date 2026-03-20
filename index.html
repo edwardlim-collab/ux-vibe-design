@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX 디자이너의 새로운 시대 — 바이브 디자인</title>
+
+    <!-- Fonts: Bricolage Grotesque (display) + Work Sans (body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (THEME)
+           Vintage Editorial with Gothic fonts
+           =========================================== */
+        :root {
+            --bg: #f5f3ee;
+            --text: #1a1a1a;
+            --muted: #666;
+            --accent: #c85a3a;
+            --accent-light: #e8d4c0;
+            --accent-dark: #a04428;
+            --card-bg: #fffdf9;
+
+            --font-display: 'Bricolage Grotesque', sans-serif;
+            --font-body: 'Work Sans', sans-serif;
+
+            --title-size: clamp(2rem, 6vw, 5rem);
+            --h2-size: clamp(1.4rem, 3.5vw, 2.8rem);
+            --h3-size: clamp(1rem, 2vw, 1.4rem);
+            --body-size: clamp(0.75rem, 1.3vw, 1.05rem);
+            --small-size: clamp(0.65rem, 1vw, 0.85rem);
+
+            --slide-padding: clamp(1.5rem, 5vw, 5rem);
+            --content-gap: clamp(0.8rem, 2vw, 2rem);
+            --element-gap: clamp(0.3rem, 1vw, 1rem);
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration: 0.7s;
+        }
+
+        /* ===========================================
+           BASE STYLES
+           =========================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ===========================================
+           VIEWPORT FITTING: MANDATORY BASE STYLES
+           =========================================== */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+            padding: var(--slide-padding);
+        }
+        .card, .container, .content-box {
+            max-width: min(90vw, 1000px);
+            max-height: min(80vh, 700px);
+        }
+        .feature-list, .bullet-list {
+            gap: clamp(0.4rem, 1vh, 1rem);
+        }
+        .feature-list li, .bullet-list li {
+            font-size: var(--body-size);
+            line-height: 1.4;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+        img, .image-container {
+            max-width: 100%;
+            max-height: min(50vh, 400px);
+            object-fit: contain;
+        }
+
+        /* Short viewports */
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 2rem);
+                --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+                --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+                --h2-size: clamp(1rem, 3vw, 1.75rem);
+            }
+        }
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+                --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+                --title-size: clamp(1.1rem, 4vw, 2rem);
+                --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            }
+            .nav-dots, .keyboard-hint, .decorative { display: none; }
+        }
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.4rem, 2vw, 1rem);
+                --title-size: clamp(1rem, 3.5vw, 1.5rem);
+                --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+                --body-size: clamp(0.65rem, 1vw, 0.85rem);
+            }
+        }
+        @media (max-width: 600px) {
+            :root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
+            .grid { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        /* ===========================================
+           GLOBAL TYPOGRAPHY & LAYOUT
+           =========================================== */
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .slide {
+            background: var(--bg);
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        /* ===========================================
+           GEOMETRIC DECORATIONS
+           Abstract shapes for editorial feel
+           =========================================== */
+        .geo {
+            position: absolute;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .geo-circle {
+            border: 2px solid var(--text);
+            border-radius: 50%;
+            opacity: 0.08;
+        }
+        .geo-line {
+            height: 2px;
+            background: var(--accent);
+            opacity: 0.3;
+        }
+        .geo-dot {
+            width: clamp(6px, 1vw, 10px);
+            height: clamp(6px, 1vw, 10px);
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.4;
+        }
+        .geo-cross {
+            opacity: 0.1;
+        }
+        .geo-cross::before,
+        .geo-cross::after {
+            content: '';
+            position: absolute;
+            background: var(--text);
+        }
+        .geo-cross::before {
+            width: clamp(20px, 3vw, 40px);
+            height: 2px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .geo-cross::after {
+            width: 2px;
+            height: clamp(20px, 3vw, 40px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* ===========================================
+           REVEAL ANIMATIONS
+           Triggered by IntersectionObserver
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity var(--duration) var(--ease-out-expo),
+                        transform var(--duration) var(--ease-out-expo);
+        }
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .slide.visible .reveal:nth-child(1) { transition-delay: 0.1s; }
+        .slide.visible .reveal:nth-child(2) { transition-delay: 0.2s; }
+        .slide.visible .reveal:nth-child(3) { transition-delay: 0.3s; }
+        .slide.visible .reveal:nth-child(4) { transition-delay: 0.4s; }
+        .slide.visible .reveal:nth-child(5) { transition-delay: 0.5s; }
+        .slide.visible .reveal:nth-child(6) { transition-delay: 0.6s; }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity var(--duration) var(--ease-out-expo),
+                        transform var(--duration) var(--ease-out-expo);
+        }
+        .slide.visible .reveal-left {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ===========================================
+           SLIDE 1: TITLE
+           =========================================== */
+        .title-slide .slide-content {
+            align-items: center;
+            text-align: center;
+            gap: clamp(0.5rem, 1.5vh, 1.2rem);
+        }
+        .title-slide .eyebrow {
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            color: var(--muted);
+        }
+        .title-slide h1 {
+            font-size: var(--title-size);
+            max-width: min(90vw, 800px);
+        }
+        .title-slide h1 .accent {
+            color: var(--accent);
+        }
+        .title-slide .tagline {
+            font-size: var(--body-size);
+            font-weight: 300;
+            color: var(--muted);
+            max-width: min(80vw, 500px);
+            line-height: 1.6;
+        }
+        .title-slide .cta-box {
+            display: inline-block;
+            margin-top: clamp(0.5rem, 1.5vh, 1rem);
+            padding: clamp(0.5rem, 1vh, 0.8rem) clamp(1.2rem, 3vw, 2rem);
+            border: 2px solid var(--text);
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .title-slide .cta-box:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        /* Title geometric elements */
+        .title-slide .geo-circle {
+            width: clamp(150px, 22vw, 320px);
+            height: clamp(150px, 22vw, 320px);
+            top: 8%;
+            right: 8%;
+            animation: slowSpin 40s linear infinite;
+        }
+        .title-slide .geo-line {
+            width: clamp(60px, 12vw, 160px);
+            bottom: 25%;
+            left: 6%;
+            transform: rotate(-15deg);
+        }
+        .title-slide .geo-dot {
+            bottom: 22%;
+            left: calc(6% + clamp(65px, 12vw, 165px));
+        }
+        .title-slide .geo-cross {
+            top: 20%;
+            left: 12%;
+        }
+
+        @keyframes slowSpin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===========================================
+           SLIDE 2: CURRENT WORKFLOW (PAIN POINTS)
+           =========================================== */
+        .pain-slide .slide-content {
+            gap: var(--content-gap);
+        }
+        .pain-slide h2 {
+            font-size: var(--h2-size);
+        }
+        .pain-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.6rem, 1.5vh, 1.2rem);
+            max-width: min(85vw, 700px);
+        }
+        .pain-list li {
+            font-size: var(--body-size);
+            line-height: 1.5;
+            padding-left: clamp(1.2rem, 2.5vw, 2rem);
+            position: relative;
+            color: var(--muted);
+        }
+        .pain-list li::before {
+            content: '—';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .pain-list li strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        /* ===========================================
+           SLIDE 3: NEW TOOLS — TRIANGLE ON CIRCLE
+           =========================================== */
+        .tools-slide .slide-content {
+            align-items: center;
+            gap: var(--content-gap);
+        }
+        .tools-slide h2 {
+            font-size: var(--h2-size);
+            text-align: center;
+        }
+        .tool-triangle {
+            position: relative;
+            width: min(80vw, 520px);
+            height: min(55vh, 440px);
+        }
+        /* Large background circle */
+        .tool-triangle-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(65vw, 400px);
+            height: min(65vw, 400px);
+            border: 2px solid var(--text);
+            border-radius: 50%;
+            opacity: 0.08;
+        }
+        /* Dashed triangle lines connecting the 3 nodes */
+        .tool-triangle-lines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .tool-triangle-lines svg {
+            width: 100%;
+            height: 100%;
+        }
+        .tool-triangle-lines polygon {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 1.5;
+            stroke-dasharray: 8 5;
+            opacity: 0.25;
+        }
+        /* Tool nodes — circular */
+        .tool-node {
+            position: absolute;
+            width: clamp(110px, 22vw, 160px);
+            height: clamp(110px, 22vw, 160px);
+            background: var(--card-bg);
+            border: 2px solid rgba(0,0,0,0.08);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: clamp(0.6rem, 1.2vw, 1rem);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .tool-node:hover {
+            box-shadow: 0 8px 28px rgba(0,0,0,0.1);
+            transform: scale(1.05);
+        }
+        /* Triangle vertex positions: top-center, bottom-left, bottom-right
+           nth-child offsets by 2 because circle + lines come first */
+        .tool-node:nth-child(3) {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .tool-node:nth-child(3):hover {
+            transform: translateX(-50%) scale(1.05);
+        }
+        .tool-node:nth-child(4) {
+            bottom: clamp(0px, 2vh, 10px);
+            left: clamp(0px, 3vw, 20px);
+        }
+        .tool-node:nth-child(5) {
+            bottom: clamp(0px, 2vh, 10px);
+            right: clamp(0px, 3vw, 20px);
+        }
+        .tool-node .tool-svg {
+            width: clamp(28px, 5vw, 40px);
+            height: clamp(28px, 5vw, 40px);
+            margin-bottom: clamp(0.2rem, 0.4vh, 0.3rem);
+            flex-shrink: 0;
+        }
+        .tool-node h3 {
+            font-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            margin-bottom: clamp(0.1rem, 0.2vh, 0.2rem);
+        }
+        .tool-node p {
+            font-size: clamp(0.5rem, 0.7vw, 0.65rem);
+            color: var(--muted);
+            line-height: 1.3;
+        }
+        /* Accent ring per node */
+        .tool-node:nth-child(3) { border-color: var(--accent); }
+        .tool-node:nth-child(4) { border-color: var(--text); }
+        .tool-node:nth-child(5) { border-color: var(--accent-light); }
+
+        @media (max-width: 600px) {
+            .tool-triangle { width: 92vw; height: min(50vh, 360px); }
+            .tool-node { width: clamp(90px, 28vw, 130px); height: clamp(90px, 28vw, 130px); }
+            .tool-triangle-circle { width: min(75vw, 300px); height: min(75vw, 300px); }
+        }
+
+        /* ===========================================
+           SLIDE 4: VIBE DESIGN CONCEPT
+           =========================================== */
+        .vibe-slide .slide-content {
+            align-items: center;
+            text-align: center;
+            gap: var(--content-gap);
+        }
+        .vibe-slide .big-quote {
+            font-family: var(--font-display);
+            font-size: clamp(1.4rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.2;
+            max-width: min(85vw, 700px);
+        }
+        .vibe-slide .big-quote .accent {
+            color: var(--accent);
+        }
+        .vibe-slide .description {
+            font-size: var(--body-size);
+            font-weight: 300;
+            color: var(--muted);
+            max-width: min(80vw, 550px);
+            line-height: 1.7;
+        }
+        .vibe-separator {
+            width: clamp(40px, 8vw, 80px);
+            height: 3px;
+            background: var(--accent);
+        }
+
+        /* ===========================================
+           SLIDE 5: CHANGED PROCESS (FLOW)
+           =========================================== */
+        .process-slide .slide-content {
+            gap: var(--content-gap);
+            align-items: center;
+        }
+        .process-slide h2 {
+            font-size: var(--h2-size);
+            text-align: center;
+        }
+
+        /* Main flow: horizontal row */
+        .process-main {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.2rem, 0.6vw, 0.5rem);
+            max-width: min(95vw, 950px);
+        }
+        .process-step {
+            background: var(--card-bg);
+            border: 1px solid rgba(0,0,0,0.06);
+            padding: clamp(0.5rem, 1.2vw, 1rem);
+            position: relative;
+            flex-shrink: 0;
+            width: clamp(100px, 17vw, 170px);
+        }
+        .process-step.highlight {
+            border-color: var(--accent);
+            border-width: 2px;
+        }
+        .process-step .step-num {
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: clamp(0.15rem, 0.4vh, 0.3rem);
+        }
+        .process-step h3 {
+            font-size: clamp(0.65rem, 1.1vw, 0.9rem);
+            margin-bottom: clamp(0.1rem, 0.3vh, 0.2rem);
+        }
+        .process-step p {
+            font-size: clamp(0.55rem, 0.8vw, 0.72rem);
+            color: var(--muted);
+            line-height: 1.4;
+        }
+        .process-arrow {
+            display: flex;
+            align-items: center;
+            font-size: var(--body-size);
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        /* Optional branch (Figma detour) */
+        .process-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+        .branch-optional {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(0.15rem, 0.4vh, 0.3rem);
+            margin-top: clamp(0.3rem, 0.8vh, 0.6rem);
+        }
+        .branch-arrow {
+            font-size: clamp(0.6rem, 0.9vw, 0.8rem);
+            color: var(--accent-light);
+        }
+        .branch-label {
+            font-family: var(--font-body);
+            font-size: clamp(0.5rem, 0.7vw, 0.65rem);
+            color: var(--accent);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .process-step.optional {
+            border-style: dashed;
+            border-color: var(--accent-light);
+            opacity: 0.85;
+        }
+
+        @media (max-width: 700px) {
+            .process-main { flex-direction: column; align-items: center; }
+            .process-arrow { transform: rotate(90deg); }
+            .process-branch { flex-direction: row; }
+            .branch-optional { flex-direction: row; margin-top: 0; margin-left: clamp(0.3rem, 1vw, 0.6rem); }
+            .branch-arrow { transform: rotate(-90deg); }
+        }
+
+        /* ===========================================
+           SLIDE 6: ROLE CHANGES
+           =========================================== */
+        .change-slide .slide-content {
+            gap: var(--content-gap);
+        }
+        .change-slide h2 {
+            font-size: var(--h2-size);
+        }
+        .change-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: clamp(0.5rem, 1.5vw, 1.5rem);
+            align-items: start;
+            max-width: min(90vw, 800px);
+        }
+        .change-col h3 {
+            font-size: var(--h3-size);
+            margin-bottom: clamp(0.4rem, 1vh, 0.8rem);
+            padding-bottom: clamp(0.3rem, 0.6vh, 0.5rem);
+            border-bottom: 2px solid var(--accent-light);
+        }
+        .change-col.after h3 {
+            border-bottom-color: var(--accent);
+        }
+        .change-col ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(0.3rem, 0.8vh, 0.7rem);
+        }
+        .change-col li {
+            font-size: var(--small-size);
+            line-height: 1.5;
+            color: var(--muted);
+            padding-left: clamp(0.8rem, 1.5vw, 1.2rem);
+            position: relative;
+        }
+        .change-col li::before {
+            position: absolute;
+            left: 0;
+            font-weight: 600;
+        }
+        .change-col.before li::before {
+            content: '×';
+            color: var(--muted);
+        }
+        .change-col.after li::before {
+            content: '→';
+            color: var(--accent);
+        }
+        .change-divider {
+            width: 1px;
+            background: rgba(0,0,0,0.1);
+            align-self: stretch;
+            margin: 0 clamp(0.3rem, 0.8vw, 0.8rem);
+        }
+        @media (max-width: 600px) {
+            .change-grid {
+                grid-template-columns: 1fr;
+            }
+            .change-divider {
+                width: 100%;
+                height: 1px;
+                margin: clamp(0.3rem, 1vh, 0.5rem) 0;
+            }
+        }
+
+        /* ===========================================
+           SLIDE 7: FUTURE OUTLOOK
+           =========================================== */
+        .future-slide .slide-content {
+            gap: var(--content-gap);
+        }
+        .future-slide h2 {
+            font-size: var(--h2-size);
+        }
+        .future-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.8rem, 2vw, 1.5rem);
+            max-width: min(90vw, 800px);
+        }
+        @media (max-width: 600px) {
+            .future-cards { grid-template-columns: 1fr; }
+        }
+        .future-card {
+            padding: clamp(1rem, 2vw, 1.8rem);
+            border-left: 3px solid var(--accent);
+            background: var(--card-bg);
+        }
+        .future-card h3 {
+            font-size: clamp(0.85rem, 1.4vw, 1.1rem);
+            margin-bottom: clamp(0.3rem, 0.6vh, 0.5rem);
+        }
+        .future-card p {
+            font-size: var(--small-size);
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ===========================================
+           SLIDE 8: CLOSING
+           =========================================== */
+        .closing-slide .slide-content {
+            align-items: center;
+            text-align: center;
+            gap: clamp(0.5rem, 1.5vh, 1.2rem);
+        }
+        .closing-slide h2 {
+            font-size: var(--title-size);
+        }
+        .closing-slide h2 .accent {
+            color: var(--accent);
+        }
+        .closing-slide .closing-tagline {
+            font-size: clamp(0.9rem, 1.8vw, 1.3rem);
+            font-weight: 300;
+            color: var(--muted);
+            max-width: min(80vw, 550px);
+            line-height: 1.6;
+        }
+
+        /* ===========================================
+           PROGRESS BAR
+           =========================================== */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        /* ===========================================
+           NAVIGATION DOTS
+           =========================================== */
+        .nav-dots {
+            position: fixed;
+            right: clamp(0.8rem, 2vw, 1.5rem);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: clamp(6px, 1vh, 10px);
+            z-index: 1000;
+        }
+        .nav-dot {
+            width: clamp(6px, 0.8vw, 8px);
+            height: clamp(6px, 0.8vw, 8px);
+            border-radius: 50%;
+            border: 1.5px solid var(--text);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0;
+        }
+        .nav-dot.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: scale(1.3);
+        }
+
+        /* ===========================================
+           SLIDE NUMBERING
+           =========================================== */
+        .slide-number {
+            position: absolute;
+            bottom: clamp(1rem, 3vh, 2rem);
+            right: clamp(1.5rem, 4vw, 3rem);
+            font-family: var(--font-display);
+            font-size: var(--small-size);
+            font-weight: 700;
+            color: rgba(0,0,0,0.15);
+            letter-spacing: 0.05em;
+        }
+
+        /* ===========================================
+           INLINE EDITING
+           =========================================== */
+        .edit-hotzone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            z-index: 10000;
+            cursor: pointer;
+        }
+        .edit-toggle {
+            position: fixed;
+            top: clamp(0.8rem, 2vh, 1.2rem);
+            left: clamp(0.8rem, 2vw, 1.2rem);
+            background: var(--text);
+            color: var(--bg);
+            border: none;
+            padding: clamp(0.4rem, 0.8vh, 0.6rem) clamp(0.8rem, 1.5vw, 1.2rem);
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            font-weight: 500;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10001;
+        }
+        .edit-toggle.show,
+        .edit-toggle.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .edit-toggle.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        [contenteditable="true"] {
+            outline: 2px dashed var(--accent);
+            outline-offset: 4px;
+            cursor: text;
+        }
+
+        .edit-banner {
+            position: fixed;
+            bottom: clamp(0.8rem, 2vh, 1.2rem);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: var(--bg);
+            font-family: var(--font-body);
+            font-size: var(--small-size);
+            padding: clamp(0.3rem, 0.6vh, 0.5rem) clamp(1rem, 2vw, 1.5rem);
+            z-index: 10001;
+            display: none;
+        }
+        .edit-banner.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Navigation dots -->
+    <nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+    <!-- Inline editing controls -->
+    <div class="edit-hotzone" id="editHotzone"></div>
+    <button class="edit-toggle" id="editToggle">Edit Mode</button>
+    <div class="edit-banner" id="editBanner">Editing — Ctrl+S to save &bull; Press E to exit</div>
+
+    <!-- ===========================================
+         SLIDE 1: TITLE
+         =========================================== -->
+    <section class="slide title-slide" data-title="Intro">
+        <div class="geo geo-circle"></div>
+        <div class="geo geo-line"></div>
+        <div class="geo geo-dot"></div>
+        <div class="geo geo-cross" style="top:20%;left:12%"></div>
+        <div class="slide-content">
+            <p class="eyebrow reveal">UX Designer &times; AI</p>
+            <h1 class="reveal">UX디자이너의<br><span class="accent">새로운 시대</span></h1>
+            <p class="tagline reveal">Claude Code, GitHub, Figma로 열어가는 바이브 디자인</p>
+            <div class="cta-box reveal" id="startBtn" role="button" tabindex="0">Start &rarr;</div>
+        </div>
+        <span class="slide-number">01 / 08</span>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 2: CURRENT WORKFLOW PAIN POINTS
+         =========================================== -->
+    <section class="slide pain-slide" data-title="현재 워크플로우">
+        <div class="geo geo-circle" style="width:clamp(100px,15vw,200px);height:clamp(100px,15vw,200px);bottom:10%;right:5%;top:auto"></div>
+        <div class="slide-content">
+            <h2 class="reveal">기존 워크플로우의 한계</h2>
+            <ul class="pain-list">
+                <li class="reveal"><strong>디자인 → 개발 핸드오프의 간극</strong><br>시안과 결과물 사이의 끊임없는 차이</li>
+                <li class="reveal"><strong>반복되는 커뮤니케이션 비용</strong><br>"여기 패딩 4px 더 주세요" — 끝없는 수정 요청</li>
+                <li class="reveal"><strong>개발 과정에서 소외되는 디자이너</strong><br>코드를 몰라서 구현 단계에 참여하기 어려움</li>
+                <li class="reveal"><strong>느린 피드백 루프</strong><br>디자인 수정 → 개발 반영까지 며칠이 걸리는 현실</li>
+            </ul>
+        </div>
+        <span class="slide-number">02 / 08</span>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 3: NEW TOOLS
+         =========================================== -->
+    <section class="slide tools-slide" data-title="새로운 도구">
+        <div class="geo geo-dot" style="top:15%;right:12%"></div>
+        <div class="geo geo-line" style="width:clamp(40px,8vw,100px);top:80%;right:8%;transform:rotate(20deg)"></div>
+        <div class="slide-content">
+            <h2 class="reveal">새로운 도구, 새로운 가능성</h2>
+            <div class="tool-triangle reveal">
+                <div class="tool-triangle-circle"></div>
+                <div class="tool-triangle-lines">
+                    <svg viewBox="0 0 520 440" preserveAspectRatio="xMidYMid meet">
+                        <polygon points="260,70 60,380 460,380"/>
+                    </svg>
+                </div>
+                <div class="tool-node">
+                    <svg class="tool-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><polyline points="7,10 10,13 7,16"/><line x1="13" y1="16" x2="17" y2="16"/></svg>
+                    <h3>Claude Code</h3>
+                    <p>자연어로 코드를 생성하고 수정</p>
+                </div>
+                <div class="tool-node">
+                    <svg class="tool-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.38c.6.12.83-.26.83-.57L9 21.07c-3.34.72-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.1-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22l-.01 3.29c0 .31.22.69.83.57A12 12 0 0 0 12 .3z"/></svg>
+                    <h3>GitHub</h3>
+                    <p>PR로 디자인 변경을 직접 소통</p>
+                </div>
+                <div class="tool-node">
+                    <svg class="tool-svg" viewBox="0 0 12 18" fill="currentColor"><path d="M0 3a3 3 0 0 1 3-3h3v6H3a3 3 0 0 1-3-3z"/><path d="M6 0h3a3 3 0 0 1 0 6H6V0z"/><path d="M0 9a3 3 0 0 1 3-3h3v6H3a3 3 0 0 1-3-3z"/><circle cx="9" cy="9" r="3"/><path d="M0 15a3 3 0 0 1 3-3h3v3a3 3 0 0 1-6 0z"/></svg>
+                    <h3>Figma</h3>
+                    <p>MCP 연동으로 코드와 직접 연결</p>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">03 / 08</span>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 4: VIBE DESIGN CONCEPT
+         =========================================== -->
+    <section class="slide vibe-slide" data-title="바이브 디자인">
+        <div class="geo geo-circle" style="width:clamp(200px,30vw,400px);height:clamp(200px,30vw,400px);top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.04;animation:slowSpin 50s linear infinite"></div>
+        <div class="slide-content">
+            <p class="eyebrow reveal" style="font-size:var(--small-size);text-transform:uppercase;letter-spacing:0.3em;color:var(--muted)">New Approach</p>
+            <div class="big-quote reveal">
+                &ldquo;느낌을 코드로,<br><span class="accent">감각을 프로덕트로</span>&rdquo;
+            </div>
+            <div class="vibe-separator reveal"></div>
+            <p class="description reveal">
+                바이브 디자인은 디자이너의 감각과 의도를 AI를 통해 바로 코드로 구현하는 방식입니다. 완벽한 시안 없이도, 방향성과 느낌만으로 빠르게 프로토타입하고 반복할 수 있습니다.
+            </p>
+        </div>
+        <span class="slide-number">04 / 08</span>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 5: CHANGED PROCESS
+         =========================================== -->
+    <section class="slide process-slide" data-title="새 프로세스">
+        <div class="slide-content">
+            <h2 class="reveal">변화된 워크플로우</h2>
+            <div class="process-main reveal">
+                <div class="process-step highlight">
+                    <span class="step-num">01</span>
+                    <h3>Claude Code로 디자인 편집</h3>
+                    <p>현재 디자인 기반으로 자연어로 수정 지시</p>
+                </div>
+                <span class="process-arrow">&rarr;</span>
+                <div class="process-branch">
+                    <div class="process-step">
+                        <span class="step-num">02</span>
+                        <h3>실시간 확인 & 수정</h3>
+                        <p>결과를 바로 보며 대화식으로 반복 수정</p>
+                    </div>
+                    <div class="branch-optional">
+                        <span class="branch-arrow">&darr;</span>
+                        <span class="branch-label">정밀 수정 필요 시</span>
+                        <span class="branch-arrow">&darr;</span>
+                        <div class="process-step optional">
+                            <span class="step-num" style="color:var(--accent-light)">&#9670;</span>
+                            <h3>Figma에서 디자인</h3>
+                            <p>정밀한 디자인 수정이 필요한 경우 Figma로 이동</p>
+                        </div>
+                        <span class="branch-arrow">&uarr;</span>
+                        <span class="branch-label">Claude Code로 복귀</span>
+                    </div>
+                </div>
+                <span class="process-arrow">&rarr;</span>
+                <div class="process-step">
+                    <span class="step-num">03</span>
+                    <h3>최종 확인</h3>
+                    <p>Claude Code에서 최종 결과물 점검</p>
+                </div>
+                <span class="process-arrow">&rarr;</span>
+                <div class="process-step highlight">
+                    <span class="step-num">04</span>
+                    <h3>GitHub PR로 반영</h3>
+                    <p>디자이너가 직접 PR을 올려 개발팀과 협업</p>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">05 / 08</span>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 6: ROLE CHANGES (BEFORE / AFTER)
+         =========================================== -->
+    <section class="slide change-slide" data-title="역할 변화">
+        <div class="geo geo-cross" style="bottom:15%;right:10%"></div>
+        <div class="slide-content">
+            <h2 class="reveal">UX 디자이너 역할의 변화</h2>
+            <div class="change-grid reveal">
+                <div class="change-col before">
+                    <h3>Before</h3>
+                    <ul>
+                        <li>시안 전달 후 대기</li>
+                        <li>개발자에게 수정 요청</li>
+                        <li>코드는 블랙박스</li>
+                        <li>핸드오프 문서 작성</li>
+                        <li>디자인 QA로 소모</li>
+                    </ul>
+                </div>
+                <div class="change-divider"></div>
+                <div class="change-col after">
+                    <h3>After</h3>
+                    <ul>
+                        <li>직접 구현하고 확인</li>
+                        <li>AI와 대화하며 수정</li>
+                        <li>코드를 이해하고 참여</li>
+                        <li>PR로 직접 기여</li>
+                        <li>창의적 문제 해결에 집중</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">06 / 08</span>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 7: FUTURE OUTLOOK
+         =========================================== -->
+    <section class="slide future-slide" data-title="미래 전망">
+        <div class="geo geo-line" style="width:clamp(50px,10vw,120px);top:15%;left:5%;transform:rotate(30deg)"></div>
+        <div class="geo geo-dot" style="bottom:20%;right:15%"></div>
+        <div class="slide-content">
+            <h2 class="reveal">앞으로의 변화</h2>
+            <div class="future-cards">
+                <div class="future-card reveal">
+                    <h3>디자이너 = 메이커</h3>
+                    <p>아이디어부터 구현까지 한 사람이 완결할 수 있는 시대. 더 빠르게, 더 정확하게 비전을 실현합니다.</p>
+                </div>
+                <div class="future-card reveal">
+                    <h3>협업의 새로운 언어</h3>
+                    <p>디자인과 개발의 경계가 허물어지며, 팀 전체가 같은 언어로 프로덕트를 만들어갑니다.</p>
+                </div>
+                <div class="future-card reveal">
+                    <h3>창의성의 확장</h3>
+                    <p>반복 작업에서 해방되어 사용자 경험의 본질 — 공감과 혁신에 더 많은 시간을 투자할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">07 / 08</span>
+    </section>
+
+    <!-- ===========================================
+         SLIDE 8: CLOSING
+         =========================================== -->
+    <section class="slide closing-slide" data-title="Closing">
+        <div class="geo geo-circle" style="width:clamp(180px,25vw,350px);height:clamp(180px,25vw,350px);bottom:5%;left:8%;animation:slowSpin 45s linear infinite reverse"></div>
+        <div class="geo geo-line" style="width:clamp(50px,8vw,100px);top:20%;right:10%;transform:rotate(-10deg)"></div>
+        <div class="slide-content">
+            <p class="eyebrow reveal" style="font-size:var(--small-size);text-transform:uppercase;letter-spacing:0.3em;color:var(--muted)">The Future is Now</p>
+            <h2 class="reveal">도구가 바뀌면 <span class="accent">역할이 바뀝니다</span></h2>
+            <p class="closing-tagline reveal">지금, UX 디자이너가 프로덕트의 중심에 서는 시대가 열리고 있습니다.</p>
+        </div>
+        <span class="slide-number">08 / 08</span>
+    </section>
+
+    <script>
+        /* ===========================================
+           SLIDE PRESENTATION CONTROLLER
+           =========================================== */
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.currentSlide = 0;
+                this.isScrolling = false;
+                this.setupIntersectionObserver();
+                this.setupKeyboardNav();
+                this.setupTouchNav();
+                this.setupWheelNav();
+                this.setupProgressBar();
+                this.setupNavDots();
+            }
+
+            /* Intersection Observer — triggers .visible for animations */
+            setupIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            const idx = Array.from(this.slides).indexOf(entry.target);
+                            if (idx !== -1) {
+                                this.currentSlide = idx;
+                                this.updateProgressBar();
+                                this.updateNavDots();
+                            }
+                        }
+                    });
+                }, { threshold: 0.5 });
+                this.slides.forEach(slide => observer.observe(slide));
+            }
+
+            /* Keyboard: arrows, space, page up/down */
+            setupKeyboardNav() {
+                document.addEventListener('keydown', (e) => {
+                    if (e.target.getAttribute('contenteditable')) return;
+                    switch(e.key) {
+                        case 'ArrowDown':
+                        case 'ArrowRight':
+                        case ' ':
+                        case 'PageDown':
+                            e.preventDefault();
+                            this.goTo(Math.min(this.currentSlide + 1, this.slides.length - 1));
+                            break;
+                        case 'ArrowUp':
+                        case 'ArrowLeft':
+                        case 'PageUp':
+                            e.preventDefault();
+                            this.goTo(Math.max(this.currentSlide - 1, 0));
+                            break;
+                        case 'Home':
+                            e.preventDefault();
+                            this.goTo(0);
+                            break;
+                        case 'End':
+                            e.preventDefault();
+                            this.goTo(this.slides.length - 1);
+                            break;
+                    }
+                });
+            }
+
+            /* Touch/swipe support */
+            setupTouchNav() {
+                let startY = 0;
+                document.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                }, { passive: true });
+                document.addEventListener('touchend', (e) => {
+                    const diff = startY - e.changedTouches[0].clientY;
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) this.goTo(Math.min(this.currentSlide + 1, this.slides.length - 1));
+                        else this.goTo(Math.max(this.currentSlide - 1, 0));
+                    }
+                }, { passive: true });
+            }
+
+            /* Wheel navigation with debounce */
+            setupWheelNav() {
+                document.addEventListener('wheel', (e) => {
+                    if (this.isScrolling) return;
+                    this.isScrolling = true;
+                    if (e.deltaY > 30) {
+                        this.goTo(Math.min(this.currentSlide + 1, this.slides.length - 1));
+                    } else if (e.deltaY < -30) {
+                        this.goTo(Math.max(this.currentSlide - 1, 0));
+                    }
+                    setTimeout(() => { this.isScrolling = false; }, 800);
+                }, { passive: true });
+            }
+
+            /* Progress bar */
+            setupProgressBar() {
+                this.progressBar = document.getElementById('progressBar');
+                this.updateProgressBar();
+            }
+            updateProgressBar() {
+                const pct = ((this.currentSlide + 1) / this.slides.length) * 100;
+                this.progressBar.style.width = pct + '%';
+            }
+
+            /* Navigation dots */
+            setupNavDots() {
+                const nav = document.getElementById('navDots');
+                this.slides.forEach((slide, i) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+                    dot.setAttribute('aria-label', slide.dataset.title || `Slide ${i + 1}`);
+                    dot.addEventListener('click', () => this.goTo(i));
+                    nav.appendChild(dot);
+                });
+                this.dots = nav.querySelectorAll('.nav-dot');
+            }
+            updateNavDots() {
+                this.dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === this.currentSlide);
+                });
+            }
+
+            /* Navigate to slide */
+            goTo(index) {
+                this.slides[index].scrollIntoView({ behavior: 'smooth' });
+                this.currentSlide = index;
+                this.updateProgressBar();
+                this.updateNavDots();
+            }
+        }
+
+        /* ===========================================
+           INLINE EDITOR
+           =========================================== */
+        class InlineEditor {
+            constructor() {
+                this.isActive = false;
+                this.editableSelectors = 'h1, h2, h3, p, li, span.tool-icon, .cta-box, .eyebrow, .tagline, .closing-tagline, .big-quote, .description, .step-num';
+                this.load();
+            }
+
+            toggleEditMode() {
+                this.isActive = !this.isActive;
+                const toggle = document.getElementById('editToggle');
+                const banner = document.getElementById('editBanner');
+                toggle.classList.toggle('active', this.isActive);
+                banner.classList.toggle('show', this.isActive);
+
+                document.querySelectorAll(this.editableSelectors).forEach(el => {
+                    if (this.isActive) {
+                        el.setAttribute('contenteditable', 'true');
+                    } else {
+                        el.removeAttribute('contenteditable');
+                    }
+                });
+
+                if (!this.isActive) this.save();
+            }
+
+            save() {
+                const data = {};
+                document.querySelectorAll('.slide').forEach((slide, si) => {
+                    data[si] = {};
+                    slide.querySelectorAll(this.editableSelectors).forEach((el, ei) => {
+                        data[si][ei] = el.innerHTML;
+                    });
+                });
+                localStorage.setItem('ux-vibe-slides', JSON.stringify(data));
+            }
+
+            load() {
+                const raw = localStorage.getItem('ux-vibe-slides');
+                if (!raw) return;
+                try {
+                    const data = JSON.parse(raw);
+                    document.querySelectorAll('.slide').forEach((slide, si) => {
+                        if (!data[si]) return;
+                        slide.querySelectorAll(this.editableSelectors).forEach((el, ei) => {
+                            if (data[si][ei] !== undefined) el.innerHTML = data[si][ei];
+                        });
+                    });
+                } catch(e) {}
+            }
+        }
+
+        /* ===========================================
+           INITIALIZE
+           =========================================== */
+        const presentation = new SlidePresentation();
+        const editor = new InlineEditor();
+
+        /* Start button scrolls to slide 2 */
+        document.getElementById('startBtn').addEventListener('click', () => {
+            presentation.goTo(1);
+        });
+
+        /* Edit toggle: hotzone hover with 400ms grace period */
+        const hotzone = document.getElementById('editHotzone');
+        const editToggle = document.getElementById('editToggle');
+        let hideTimeout = null;
+
+        hotzone.addEventListener('mouseenter', () => {
+            clearTimeout(hideTimeout);
+            editToggle.classList.add('show');
+        });
+        hotzone.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => {
+                if (!editor.isActive) editToggle.classList.remove('show');
+            }, 400);
+        });
+        editToggle.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); });
+        editToggle.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => {
+                if (!editor.isActive) editToggle.classList.remove('show');
+            }, 400);
+        });
+
+        editToggle.addEventListener('click', () => editor.toggleEditMode());
+        hotzone.addEventListener('click', () => editor.toggleEditMode());
+
+        /* Keyboard: E to toggle edit, Ctrl+S to save */
+        document.addEventListener('keydown', (e) => {
+            if ((e.key === 'e' || e.key === 'E') && !e.target.getAttribute('contenteditable')) {
+                editor.toggleEditMode();
+            }
+            if (e.ctrlKey && e.key === 's') {
+                e.preventDefault();
+                editor.save();
+            }
+        });
+    </script>
+</body>
+</html>
